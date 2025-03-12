@@ -39,35 +39,32 @@
                 }
             });
 
-            // Add a click event listener for the map
+            // Add a click event to show a popup with the station details
             map.on('click', 'geojson-points', (e) => {
-                // Get the properties of the clicked feature
-                const feature = e.features[0];
-                const coordinates = feature.geometry.coordinates;
-                const properties = feature.properties;
+                const properties = e.features[0].properties;
+                const coordinates = e.lngLat;
 
-                // Create and show a popup with the feature details
+                // Create and display the popup
                 new mapboxgl.Popup()
                     .setLngLat(coordinates)
                     .setHTML(`
-                        <strong>${properties.name}</strong><br>
-                        Address: ${properties.address}<br>
-                        Country: ${properties.country}<br>
-                        City: ${properties.city}<br>
-                        Telephone: ${properties.telephone}
+                        <h3>${properties.name_en}</h3>
+                        <p><strong>Address:</strong> ${properties.address_en}</p>
+                        <p><strong>Phone:</strong> ${properties.tel}</p>
+                        <p><strong>Group:</strong> ${properties.group}</p>
+                        <p><strong>Brand:</strong> ${properties.brand}</p>
                     `)
                     .addTo(map);
             });
 
-            // Change the cursor to a pointer when hovering over the points
+            // Change cursor on hover
             map.on('mouseenter', 'geojson-points', () => {
                 map.getCanvas().style.cursor = 'pointer';
             });
 
-            // Change the cursor back when leaving the points
             map.on('mouseleave', 'geojson-points', () => {
                 map.getCanvas().style.cursor = '';
-            });         
+            });
             
         });
     </script>
