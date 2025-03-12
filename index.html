@@ -28,6 +28,17 @@
                 data: 'https://raw.githubusercontent.com/Wkeskat/mabbox_test/refs/heads/main/shell.geojson' // External GeoJSON
             });
 
+            
+            map.addLayer({
+                id: 'geojson-points',
+                type: 'circle',
+                source: 'geojson-layer',
+                paint: {
+                    'circle-radius': 6,
+                    'circle-color': '#ff0000'
+                }
+            });
+
             // Add a click event listener for the map
             map.on('click', 'geojson-points', (e) => {
                 // Get the properties of the clicked feature
@@ -48,15 +59,16 @@
                     .addTo(map);
             });
 
-            map.addLayer({
-                id: 'geojson-points',
-                type: 'circle',
-                source: 'geojson-layer',
-                paint: {
-                    'circle-radius': 6,
-                    'circle-color': '#ff0000'
-                }
+            // Change the cursor to a pointer when hovering over the points
+            map.on('mouseenter', 'geojson-points', () => {
+                map.getCanvas().style.cursor = 'pointer';
             });
+
+            // Change the cursor back when leaving the points
+            map.on('mouseleave', 'geojson-points', () => {
+                map.getCanvas().style.cursor = '';
+            });         
+            
         });
     </script>
 </body>
