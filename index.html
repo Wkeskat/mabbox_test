@@ -28,6 +28,26 @@
                 data: 'https://raw.githubusercontent.com/Wkeskat/mabbox_test/refs/heads/main/shell.geojson' // External GeoJSON
             });
 
+            // Add a click event listener for the map
+            map.on('click', 'geojson-points', (e) => {
+                // Get the properties of the clicked feature
+                const feature = e.features[0];
+                const coordinates = feature.geometry.coordinates;
+                const properties = feature.properties;
+
+                // Create and show a popup with the feature details
+                new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML(`
+                        <strong>${properties.name}</strong><br>
+                        Address: ${properties.address}<br>
+                        Country: ${properties.country}<br>
+                        City: ${properties.city}<br>
+                        Telephone: ${properties.telephone}
+                    `)
+                    .addTo(map);
+            });
+
             map.addLayer({
                 id: 'geojson-points',
                 type: 'circle',
